@@ -17,6 +17,10 @@ export default {
     ]
   },
 
+  env: {
+    MAPBOX_TOKEN: process.env.ACCESS_TOKEN
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -52,10 +56,6 @@ export default {
     manifest: {
       lang: 'en'
     }
-  },
-
-  env: {
-    MAPBOX_TOKEN: process.env.ACCESS_TOKEN
   },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
