@@ -66,7 +66,6 @@
     },
     methods: {
       createMap() {
-        // initial mapbox setting
         mapboxgl.accessToken = this.access_token
         this.map = new mapboxgl.Map({
           container: 'map',
@@ -78,18 +77,17 @@
         var geojson = {
           type: 'FeatureCollection',
           features: [{
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [139.7679591178894, 35.681370007533836]
-              },
-              properties: {
-                title: '東京シアター',
-                description: 'Washington, D.C.',
-                info: []
-              }
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [139.7679591178894, 35.681370007533836]
+            },
+            properties: {
+              title: '札幌シアターキノ',
+              description: 'Washington, D.C.',
+              info: []
             }
-          ]
+          }]
         };
 
         geojson.features.forEach((marker) => {
@@ -98,13 +96,19 @@
           new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
             .addTo(this.map)
-            console.log(marker.properties.info)
+
           el.addEventListener('click', () => {
             this.theater_name = marker.properties.title
-            this.info = marker.properties.info
+            this.getInfo(marker.properties.title)
+            // this.info = marker.properties.info
           });
         })
       },
+      getInfo(theater_name) {
+        this.info = this.$axios.get(
+          `https://yqv1i4n9z6.execute-api.ap-northeast-1.amazonaws.com/cnm/theater?theater_name=${theater_name}`
+        ).then(res => console.log(res));
+      }
     }
   }
 
@@ -171,4 +175,5 @@
       @apply bg-gray-300;
     }
   }
+
 </style>
