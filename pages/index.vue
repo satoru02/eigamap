@@ -48,14 +48,21 @@
 <script>
   import mapboxgl from 'mapbox-gl';
   import InfoCard from '../components/InfoCard.vue';
+  const getCinemas = () => import('../static/geodata.json').then(j => j.default || j)
+
   export default {
+    async asyncData ({ req }) {
+      const geojson = await getCinemas()
+      return { geojson }
+    },
     data() {
       return {
         access_token: process.env.MAPBOX_TOKEN,
         map: {},
         info: '',
         theater_name: '',
-        theater_day: ''
+        theater_day: '',
+        cinemas: ''
       }
     },
     components: {
@@ -74,23 +81,7 @@
           center: [139.7679591178894, 35.681370007533836]
         });
 
-        var geojson = {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [139.7679591178894, 35.681370007533836]
-            },
-            properties: {
-              title: '札幌シアターキノ',
-              description: 'Washington, D.C.',
-              info: []
-            }
-          }]
-        };
-
-        geojson.features.forEach((marker) => {
+        this.geojson.features.forEach((marker) => {
           var el = document.createElement('div');
           el.className = 'marker';
           new mapboxgl.Marker(el)
