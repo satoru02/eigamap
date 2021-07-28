@@ -5,7 +5,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'cnm',
+    title: '映画館検索MAP | お気に入りの映画館を見つけよう。',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -19,7 +19,8 @@ export default {
   },
 
   env: {
-    MAPBOX_TOKEN: process.env.ACCESS_TOKEN
+    ACCESS_TOKEN: process.env.ACCESS_TOKEN,
+    API_GATEWAY: process.env.API_GATEWAY,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -58,12 +59,9 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'ja'
     }
   },
-
-  // Content module configuration: https://go.nuxtjs.dev/config-content
-  content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

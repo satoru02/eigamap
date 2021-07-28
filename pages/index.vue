@@ -31,11 +31,11 @@
             </a>
 
             <hr class="mt-5" />
+            <div class="mt-2 text-base font-semibold text-gray-600" v-if="$nuxt.$route.name === 'index'">
+              お気に入りの映画館を見つけよう。
+            </div>
             <div class="mt-6 text-xl font-bold">
               {{ theater_name }}
-            </div>
-            <div class="mt-2 text-base font-semibold text-gray-600">
-              7/22の上映スケジュール
             </div>
             <InfoCard :info="this.info" />
           </div>
@@ -51,18 +51,23 @@
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j)
 
   export default {
-    async asyncData ({ req }) {
+    name: "index",
+    async asyncData({
+      req
+    }) {
       const geojson = await getCinemas()
-      return { geojson }
+      return {
+        geojson
+      }
     },
     data() {
       return {
-        access_token: process.env.MAPBOX_TOKEN,
+        access_token: process.env.ACCESS_TOKEN,
+        endpoint: process.env.API_GATEWAY,
         map: {},
         info: '',
         theater_name: '',
-        theater_day: '',
-        cinemas: ''
+        target_day: '',
       }
     },
     components: {
@@ -76,7 +81,7 @@
         mapboxgl.accessToken = this.access_token
         this.map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/satoru02/ckrd4960d1kz217o0oivtdav5',
+          style: 'mapbox://styles/satoru02/ckrc2mnnp0pjq17qw46hfvs2p',
           zoom: 14,
           center: [139.7679591178894, 35.681370007533836]
         });
@@ -91,14 +96,14 @@
           el.addEventListener('click', () => {
             this.theater_name = marker.properties.title
             this.getInfo(marker.properties.title)
-            // this.info = marker.properties.info
           });
         })
       },
-      getInfo(theater_name) {
-        this.info = this.$axios.get(
-          `https://yqv1i4n9z6.execute-api.ap-northeast-1.amazonaws.com/cnm/theater?theater_name=${theater_name}`
-        ).then(res => console.log(res));
+      async getInfo(theater_name) {
+        await this.$axios.get(
+            this.endpoint + `${theater_name}`
+          ).then(res => this.info = res.data.cnm_info)
+          .catch(err => console.log(err))
       }
     }
   }
@@ -112,10 +117,10 @@
   }
 
   .marker {
-    background-image: url('./mapbox-icon.png');
+    background-image: url('../static/placeholder.png');
     background-size: cover;
-    width: 70px;
-    height: 70px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
   }
@@ -142,14 +147,14 @@
   }
 
   .sidebar-content {
-    width: 95%;
+    width: 100%;
     height: 95%;
   }
 
   .sidebar {
     transition: transform 1s;
     z-index: 1;
-    width: 300px;
+    width: 350px;
     height: 100%;
   }
 
