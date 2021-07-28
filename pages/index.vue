@@ -31,7 +31,7 @@
             </a>
 
             <hr class="mt-5" />
-            <div class="mt-2 text-base font-semibold text-gray-600" v-if="$nuxt.$route.name === 'index'">
+            <div class="mt-2 text-base font-semibold text-gray-600">
               お気に入りの映画館を見つけよう。
             </div>
             <div class="mt-6 text-xl font-bold">
@@ -92,7 +92,6 @@
           new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
             .addTo(this.map)
-
           el.addEventListener('click', () => {
             this.theater_name = marker.properties.title
             this.getInfo(marker.properties.title)

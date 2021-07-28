@@ -4,7 +4,7 @@
     <h2 class="text-xl leading-7 font-semibold">
       {{ movie.title }}
     </h2>
-    <p class="new_badge mt-3 text-gray-600 text-base" v-for="(date, index) in movie.props[0][0]" :key="index">
+    <p class="new_badge mt-3 text-gray-600 text-base" v-for="(date, index) in movie.props[0][targetDayOfWeek]" :key="index">
       {{ date.time }}
     </p>
   </div>
@@ -16,7 +16,7 @@ export default {
   name: 'InfoCard',
   data(){
     return {
-      target_date: ''
+      targetDayOfWeek: this.getDayOfWeek(Date.now()),
     }
   },
   props: {
@@ -25,8 +25,12 @@ export default {
       default: ""
     },
   },
-  computed: {
-    //　change movie.props[0][i] by target_date
-  }
+  methods: {
+    getDayOfWeek(date){
+      var day = new Date(date)
+      var dayOfWeek = day.getDay()
+      return dayOfWeek
+    }
+  },
 }
 </script>
