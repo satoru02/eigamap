@@ -37,7 +37,7 @@
             <div class="mt-6 text-xl font-bold">
               {{ theater_name }}
             </div>
-            <InfoCard :info="this.info" />
+            <InfoSection :info="this.info" />
           </div>
         </div>
       </div>
@@ -47,8 +47,8 @@
 
 <script>
   import mapboxgl from 'mapbox-gl';
-  import InfoCard from '../components/InfoCard.vue';
-  const getCinemas = () => import('../static/geodata.json').then(j => j.default || j)
+  import InfoSection from '../components/InfoSection.vue';
+  const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
     name: "index",
@@ -71,7 +71,7 @@
       }
     },
     components: {
-      InfoCard
+      InfoSection
     },
     mounted() {
       this.createMap()
