@@ -1,8 +1,8 @@
 <template>
   <section>
-    <ul>
-      <li v-for="(day, index) in daysOfWeek" :key="index" @click="changeDay(day)">
-        {{ setWeekDays(index) }}
+    <ul v-if="this.info">
+      <li v-for="(day, index) in daysOfWeek" :key="index" @click="changeDays(day)" class="mr-3 mt-2 cursor-pointer">
+        <p class="text-base text-gray-500 hover:text-blue-500 font-medium">{{ daysToWeekend(index) }}</p>
       </li>
     </ul>
     <div class="mt-8 bg-white sm:rounded-lg p-6" v-for="(movie,index) in info[0]" :key="index">
@@ -10,7 +10,7 @@
         {{ movie.title }}
       </h2>
       <p class="new_badge mt-3 text-gray-600 text-base"
-        v-for="(date, index) in movie.props[0][getDayOfWeek(dayChanger)]" :key="index">
+        v-for="(date, index) in movie.props[0][cnmDayCount]" :key="index">
         {{ date.time }}
       </p>
     </div>
@@ -22,8 +22,8 @@
     name: 'InfoSection',
     data() {
       return {
-        dayChanger: Date.now(),
-        daysOfWeek: []
+        daysOfWeek: [],
+        cnmDayCount: ''
       }
     },
     props: {
@@ -33,33 +33,46 @@
       },
     },
     created() {
-      this.daysOfWeek = this.setDays()
+      this.daysOfWeek = this.setDaysToWeekend()
+    },
+    computed: {
     },
     methods: {
-      setDays() {
+      setDaysToWeekend() {
         let today = new Date(Date.now())
-        let daysAry = []
-        for (let i = today.getDay(); i < 7; i++) {
-          daysAry.push(i)
+        let todayNumber = today.getDay()
+        let ary = []
+        for (let i = todayNumber; i < 7; i++) {
+          ary.push(i)
         }
-        return daysAry
+        return ary
       },
-      setWeekDays(dayCount) {
-        let options = {　month: 'long',　day: 'numeric'}
-        let day = new Date()
-        day.setDate(day.getDate() + dayCount)
-        return new Date(day).toLocaleDateString('ja', options)
-      },
-      getDayOfWeek(date) {
-        let day = new Date(date)
-        let dayOfWeek = day.getDay()
-        return dayOfWeek
-      },
-      changeDay(targetDay){
+      setTargetDay(targetDay){
         let day = new Date()
         day.setDate(day.getDate() + targetDay)
-        this.dayChanger = day.getDay()
-      }
+        return day
+      },
+      daysToWeekend(daysIndex) {
+        let options = {　month: 'long',　day: 'numeric'}
+        let day = this.setTargetDay(daysIndex)
+        return new Date(day).toLocaleDateString('ja', options)
+      },
+      changeDays(targetDay){
+        this.cnmDayCount = targetDay
+      },
     }
   }
 </script>
+
+<style lang="postcss">
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 5%;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+</style>

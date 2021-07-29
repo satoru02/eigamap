@@ -5,7 +5,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '映画館検索MAP | お気に入りの映画館を見つけよう。',
+    title: '映画館MAP | お気に入りの映画館を見つけよう。',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
