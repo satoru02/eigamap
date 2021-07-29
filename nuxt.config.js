@@ -14,6 +14,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' },
       { rel: 'stylesheet', href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' }
     ]
   },

@@ -86,6 +86,15 @@
           center: [139.7679591178894, 35.681370007533836]
         });
 
+        this.map.addControl(
+          new mapboxgl.GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true
+            },
+            trackUserLocation: true
+          })
+        );
+
         this.geojson.features.forEach((marker) => {
           var el = document.createElement('div');
           el.className = 'marker';
