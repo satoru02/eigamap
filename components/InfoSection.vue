@@ -2,17 +2,17 @@
   <section>
     <ul v-if="this.info">
       <li v-for="(day, index) in daysOfWeek" :key="index" @click="changeDays(day)" class="mr-3 mt-2 cursor-pointer">
-        <p class="text-base text-gray-500 hover:text-blue-500 font-medium">{{ daysToWeekend(index) }}</p>
+        <p class="text-base text-gray-400 hover:text-blue-500 font-medium">{{ daysToWeekend(index) }}</p>
       </li>
     </ul>
-    <div class="mt-8 bg-white sm:rounded-lg p-6" v-for="(movie,index) in info[0]" :key="index">
-      <h2 class="text-xl leading-7 font-semibold">
+    <div class="mt-3 bg-white sm:rounded-lg p-6" v-for="(movie,index) in info[0]" :key="index">
+      <h2 class="text-lg leading-7 font-semibold">
         {{ movie.title }}
       </h2>
-      <p class="new_badge mt-3 text-gray-600 text-base"
+      <div class="hover:bg-blue-400 cursor-pointer border border-gray-300 rounded-3xl mt-4 text-lg text-current"
         v-for="(date, index) in movie.props[0][cnmDayCount]" :key="index">
-        {{ date.time }}
-      </p>
+        <p class="ml-14">{{ date.time }} </p>
+      </div>
     </div>
   </section>
 </template>
@@ -23,7 +23,7 @@
     data() {
       return {
         daysOfWeek: [],
-        cnmDayCount: ''
+        cnmDayCount: 0
       }
     },
     props: {
@@ -75,4 +75,12 @@ ul {
 li {
   float: left;
 }
+
+  .new_badge {
+    @apply border border-gray-300 rounded-lg px-3 py-1 text-lg font-semibold text-current;
+
+    &:hover {
+      @apply bg-gray-300;
+    }
+  }
 </style>

@@ -2,15 +2,14 @@
   <div id="map">
     <div id="left" class="sidebar flex-center left collapsed" v-if="this.collapsedMode === false">
       <div class="rounded-rect">
-        <div class="relative flex items-top min-h-screen bg-gray-100 sm:items-center sm:pt-0">
-          <div class="left-card max-w-lg mx-auto sm:px-9 lg:px-12">
-            <div class="mt-2 text-base font-semibold text-gray-600" @click="toggleSidebar()">
-              閉じる
+        <div class="relative flex min-h-screen bg-black items-center">
+          <div class="left-card max-w-lg mx-auto sm:px-3 lg:px-7 sm:pt-0 mt-5">
+            <div class="cross-mark absolute top-6 cursor-pointer right-3 text-base font-semibold text-gray-300" @click="toggleSidebar()">
             </div>
-            <div class="mt-2 text-base font-semibold text-gray-600">
+            <div class="mt-2 text-base font-semibold text-gray-400">
               お気に入りの映画館を見つけよう。
             </div>
-            <div class="mt-6 text-xl font-bold">
+            <div class="mt-6 text-xl text-gray-300 font-bold">
               {{ theater_name }}
             </div>
             <InfoSection :info="this.info" />
@@ -44,7 +43,7 @@
         info: '',
         theater_name: '',
         target_day: '',
-        collapsedMode: true
+        collapsedMode: false
       }
     },
     components: {
@@ -107,6 +106,14 @@
     height: 100vh;
   }
 
+  .cross-mark {
+    background-image: url('../static/letter-x.png');
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
+
   .marker {
     background-image: url('../static/placeholder.png');
     background-size: cover;
@@ -135,9 +142,7 @@
   }
 
   .sidebar {
-    transition: transform 1s;
-    max-width: 300px;
-    width: 300px;
+    max-width: 320px;
     z-index: 1;
     height: 100%;
   }
