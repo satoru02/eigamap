@@ -5,6 +5,10 @@
         <div class="relative flex min-h-screen bg-black items-center">
           <div class="left-card max-w-lg mx-auto sm:px-3 lg:px-7 sm:pt-0 mt-5">
             <div class="cross-mark absolute top-6 cursor-pointer right-3 text-base font-semibold text-gray-300" @click="toggleSidebar()">
+              <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'"
+                  :height="'17'" :width="'17'">
+                <CrossMark />
+              </BaseIcon>
             </div>
             <div class="mt-2 text-base font-semibold text-gray-400">
               お気に入りの映画館を見つけよう。
@@ -23,6 +27,8 @@
 <script>
   import mapboxgl from 'mapbox-gl';
   import InfoSection from '../components/InfoSection.vue';
+  import BaseIcon from '../components/BaseIcon.vue';
+  import CrossMark from '../components/CrossMark.vue';
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
@@ -47,7 +53,9 @@
       }
     },
     components: {
-      InfoSection
+      InfoSection,
+      BaseIcon,
+      CrossMark
     },
     mounted() {
       this.createMap()
