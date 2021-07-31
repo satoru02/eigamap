@@ -2,7 +2,7 @@
   <section>
     <ul v-if="this.info">
       <li v-for="(day, index) in daysOfWeek" :key="index" @click="changeDays(day)" class="mr-3 mt-2 cursor-pointer">
-        <p class="text-base text-gray-400 hover:text-blue-500 font-medium">{{ daysToWeekend(index) }}</p>
+        <button class="text-base text-gray-400 focus:text-white font-medium">{{ daysToWeekend(index) }}</button>
       </li>
     </ul>
     <div class="mt-3 bg-white sm:rounded-lg p-6" v-for="(movie,index) in info[0]" :key="index">

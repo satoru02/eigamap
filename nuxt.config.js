@@ -64,6 +64,12 @@ export default {
     }
   },
 
+  tailwindcss: {
+    configPath: 'tailwind.config.js',
+    exposeConfig: false,
+    // config: {}
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
