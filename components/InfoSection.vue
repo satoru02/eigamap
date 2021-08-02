@@ -1,17 +1,20 @@
 <template>
   <section>
-    <select v-if="this.info" v-model="selectedDay" class="rounded-sm text-xl mt-3 font-semibold bg-black mb-3 text-gray-300">
+    <select v-if="this.info" v-model="selectedDay"
+      class="rounded-sm text-xl mt-3 font-semibold bg-black mb-3 text-gray-300">
       <option v-for="(day, index) in daysOfWeek" :key="index" :value="index">
         {{ daysToWeekend(index) }}
       </option>
     </select>
-    <div class="mt-3 bg-white sm:rounded-lg p-6" v-for="(movie,index) in info[0]" :key="index">
-      <h2 class="text-lg leading-7 font-semibold">
+    <div class="mt-3 bg-black sm:rounded-lg pt-3" v-for="(movie,index) in info[0]" :key="index">
+      <h2 class="text-xl text-white font-semibold">
         {{ movie.title }}
       </h2>
-      <div class="hover:bg-blue-400 cursor-pointer border border-gray-300 rounded-3xl mt-4 text-lg text-current"
+      <div class="flex flex-wrap">
+      <div class="badge mr-4 mt-4 cursor-pointer hover:text-blue-600"
         v-for="(date, index) in movie.props[0][selectedDay]" :key="index">
-        <p class="ml-14">{{ date.time }} </p>
+          {{ date.time }}
+      </div>
       </div>
     </div>
   </section>
@@ -75,12 +78,11 @@
     float: left;
   }
 
-  .new_badge {
-    @apply border border-gray-300 rounded-lg px-3 py-1 text-lg font-semibold text-current;
+  .badge {
+    @apply bg-indigo-600 rounded-md px-8 py-1 text-lg font-semibold text-white;
 
     &:hover {
       @apply bg-gray-300;
     }
   }
-
 </style>
