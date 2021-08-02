@@ -3,20 +3,31 @@
     <div id="left" class="sidebar flex-center left collapsed" v-if="this.collapsedMode === false">
       <div class="rounded-rect">
         <div class="relative flex min-h-screen bg-black items-center">
-          <div class="left-card max-w-lg mx-auto sm:px-3 lg:px-7 sm:pt-0 mt-5">
-            <div class="cross-mark absolute top-6 cursor-pointer right-3 text-base font-semibold text-gray-300" @click="toggleSidebar()">
-              <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'"
-                  :height="'17'" :width="'17'">
+          <div class="left-card max-w-lg mx-auto sm:px-3 lg:px-2 sm:pt-0 mt-5">
+            <div class="cross-mark absolute top-7 cursor-pointer right-3 text-base font-semibold text-gray-300"
+              @click="toggleSidebar()">
+              <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'" :height="'17'"
+                :width="'17'">
                 <CrossMark />
               </BaseIcon>
             </div>
             <div class="mt-2 text-base font-semibold text-gray-400">
               お気に入りの映画館を見つけよう。
             </div>
-            <div class="mt-6 text-xl text-gray-300 font-bold">
-              {{ theater_name }}
+
+            <div class="flex items-start pt-3" v-if="theater_name">
+              <div class="h-12 mr-2 mt-1">
+                <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 410 410'" :iconColor="'#ffea00'" :height="'20'"
+                  :width="'20'">
+                  <TheaterMark />
+                </BaseIcon>
+              </div>
+              <div class="text-xl text-white font-bold"> {{ theater_name }}</div>
             </div>
             <InfoSection :info="this.info" />
+            <button v-if="theater_name" @click="toggleSidebar()" class="back-button mb-10 w-24 min-w-full">
+             戻る
+            </button>
           </div>
         </div>
       </div>
@@ -29,6 +40,7 @@
   import InfoSection from '../components/InfoSection.vue';
   import BaseIcon from '../components/BaseIcon.vue';
   import CrossMark from '../components/CrossMark.vue';
+  import TheaterMark from '../components/TheaterMark.vue';
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
@@ -55,7 +67,8 @@
     components: {
       InfoSection,
       BaseIcon,
-      CrossMark
+      CrossMark,
+      TheaterMark
     },
     mounted() {
       this.createMap()
@@ -82,13 +95,21 @@
         this.geojson.features.forEach((marker) => {
           var el = document.createElement('div');
           el.className = 'marker';
+
+          var popup = new mapboxgl.Popup({
+            offset: 25
+          }).setText(
+            marker.properties.title
+          );
+
           new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
+            .setPopup(popup)
             .addTo(this.map)
           el.addEventListener('click', () => {
             this.theater_name = marker.properties.title
             this.getInfo(marker.properties.title)
-            if(this.collapsedMode === true){
+            if (this.collapsedMode === true) {
               this.toggleSidebar()
             }
           });
@@ -100,7 +121,7 @@
           ).then(res => this.info = res.data.cnm_info)
           .catch(err => console.log(err))
       },
-      toggleSidebar(){
+      toggleSidebar() {
         this.collapsedMode = !this.collapsedMode
       },
     }
@@ -112,6 +133,10 @@
   #map {
     width: 100%;
     height: 100vh;
+  }
+
+  .mapboxgl-popup {
+    max-width: 200px;
   }
 
   .cross-mark {
@@ -168,4 +193,13 @@
       @apply bg-gray-300;
     }
   }
+
+  .back-button {
+    @apply bg-green-400 rounded-md px-8 py-1 text-lg font-semibold text-white;
+
+    &:hover {
+      @apply bg-green-600;
+    }
+  }
+
 </style>

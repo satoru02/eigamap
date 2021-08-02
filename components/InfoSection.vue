@@ -1,20 +1,19 @@
 <template>
   <section>
-    <select v-if="this.info" v-model="selectedDay"
-      class="rounded-sm text-xl mt-3 font-semibold bg-black mb-3 text-gray-300">
+    <select v-if="this.info" v-model="selectedDay" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
       <option v-for="(day, index) in daysOfWeek" :key="index" :value="index">
         {{ daysToWeekend(index) }}
       </option>
     </select>
-    <div class="mt-3 bg-black sm:rounded-lg pt-3" v-for="(movie,index) in info[0]" :key="index">
+    <div class="pb-7 sm:pb-9 bg-black sm:rounded-lg" v-for="(movie,index) in info[0]" :key="index">
       <h2 class="text-xl text-white font-semibold">
         {{ movie.title }}
       </h2>
       <div class="flex flex-wrap">
-      <div class="badge mr-4 mt-4 cursor-pointer hover:text-blue-600"
-        v-for="(date, index) in movie.props[0][selectedDay]" :key="index">
+        <div class="badge mr-4 mt-4 cursor-pointer hover:text-blue-600"
+          v-for="(date, index) in movie.props[0][selectedDay]" :key="index">
           {{ date.time }}
-      </div>
+        </div>
       </div>
     </div>
   </section>
@@ -61,6 +60,7 @@
         let day = this.setTargetDay(daysIndex)
         return new Date(day).toLocaleDateString('ja', options)
       },
+      getCurrentTime() {}
     }
   }
 
@@ -85,4 +85,5 @@
       @apply bg-gray-300;
     }
   }
+
 </style>
