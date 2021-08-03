@@ -27,13 +27,7 @@
                 </div>
                 <div class="text-xl text-white font-bold"> {{ theater_name }}</div>
               </div>
-              <!-- <button v-if="theater_name" class="back-button mb-5 w-24 min-w-full">
-                <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
-                    :width="'25'">
-                  <UploadMark />
-                </BaseIcon>
-              </button> -->
-              <InfoSection :info="this.info" />
+              <InfoSection :info="this.info" :theaterName="theater_name" />
               <button v-if="theater_name" @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
                 閉じる
               </button>
@@ -42,7 +36,7 @@
               </button>
               <div class="flex items-center justify-center">
                 <div class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300 mb-16"
-                  @click="show('about')">
+                  @click="openDialog('about')">
                   映画館MAPについて
                 </div>
               </div>
@@ -57,12 +51,13 @@
 
 <script>
   import mapboxgl from 'mapbox-gl';
+  import Header from '../components/Header.vue';
   import InfoSection from '../components/InfoSection.vue';
   import BaseIcon from '../components/BaseIcon.vue';
   import CrossMark from '../components/CrossMark.vue';
   import TheaterMark from '../components/TheaterMark.vue';
   import UploadMark from '../components/UploadMark.vue';
-  import Header from '../components/Header.vue';
+
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
@@ -87,12 +82,12 @@
       }
     },
     components: {
+      Header,
       InfoSection,
       BaseIcon,
       CrossMark,
       TheaterMark,
-      Header,
-      UploadMark
+      UploadMark,
     },
     mounted() {
       this.createMap()
@@ -148,16 +143,15 @@
       toggleSidebar() {
         this.collapsedMode = !this.collapsedMode
       },
-      show(modalType) {
-
-        function switchText(){
-          switch(modalType){
-            case 'about' : return '国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。';
-            // case 'policy': return ''
-            // case 'rule' : return ''
+      openDialog(modalType) {
+        function switchText() {
+          switch (modalType) {
+            case 'about':
+              return '国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。';
+              // case 'policy': return ''
+              // case 'rule' : return ''
           }
         }
-
         this.$modal.show('dialog', {
           title: '映画館MAPとは？',
           text: switchText(),
@@ -168,6 +162,17 @@
             }
           }, ]
         })
+      },
+      socialDialog() {
+        this.$modal.show(
+          LinkModal, {
+            text: 'This text is passed as a property'
+          }, {
+            height: 'auto'
+          }, {
+            'before-close': event => {}
+          }
+        )
       }
     }
   }

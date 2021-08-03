@@ -5,6 +5,27 @@
         {{ daysToWeekend(index) }}
       </option>
     </select>
+    <div class="flex items-center mb-6" v-if="this.info">
+      <div class="font-semibold text-gray-100 text-sm mr-4">
+        この映画館をシェア
+      </div>
+      <a
+       :href="`https://twitter.com/intent/tweet?&text=${theaterName}&hashtags=映画館MAP&url=https://domain&screen_name=映画館MAP`"
+       class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300">
+        <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
+          :width="'25'">
+          <TwitterMark />
+        </BaseIcon>
+      </a>
+      <a
+       :href="`https://www.facebook.com/sharer.php?u=https://domain&t=${theaterName}`"
+       class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300">
+        <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
+          :width="'25'">
+          <FacebookMark />
+        </BaseIcon>
+      </a>
+    </div>
     <div class="font-semibold text-gray-400 mb-5" v-if="info">
       ※上映予定は、急遽変更になる可能性があります。上映時間直前の最新情報は、公式ホームページをご確認ください。
     </div>
@@ -23,6 +44,10 @@
 </template>
 
 <script>
+  import TwitterMark from '../components/TwitterMark.vue';
+  import FacebookMark from '../components/FacebookMark.vue';
+  import BaseIcon from '../components/BaseIcon.vue';
+
   export default {
     name: 'InfoSection',
     data() {
@@ -31,11 +56,21 @@
         selectedDay: 0
       }
     },
+    components: {
+      TwitterMark,
+      FacebookMark,
+      BaseIcon
+
+    },
     props: {
       info: {
         type: "",
         default: ""
       },
+      theaterName: {
+        type: String,
+        default: ''
+      }
     },
     created() {
       this.daysOfWeek = this.setDaysToWeekend()
@@ -66,6 +101,7 @@
       getCurrentTime() {}
     }
   }
+
 </script>
 
 <style lang="postcss">
@@ -75,13 +111,17 @@
     padding: 5%;
     overflow: hidden;
   }
+
   li {
     float: left;
   }
+
   .badge {
     @apply bg-indigo-600 rounded-md px-8 py-1 text-lg font-semibold text-white;
+
     &:hover {
       @apply bg-gray-300;
     }
   }
+
 </style>
