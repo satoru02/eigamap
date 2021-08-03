@@ -1,38 +1,58 @@
 <template>
-  <div id="map">
-    <div id="left" class="sidebar flex-center left collapsed" v-if="this.collapsedMode === false">
-      <div class="rounded-rect">
-        <div class="relative flex min-h-screen bg-black items-center">
-          <div class="left-card max-w-lg mx-auto sm:px-3 lg:px-2 sm:pt-0 mt-5">
-            <div class="cross-mark absolute top-7 cursor-pointer right-3 text-base font-semibold text-gray-300"
-              @click="toggleSidebar()">
-              <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'" :height="'17'"
-                :width="'17'">
-                <CrossMark />
-              </BaseIcon>
-            </div>
-            <div class="mt-2 text-base font-semibold text-gray-400">
-              お気に入りの映画館を見つけよう。
-            </div>
-
-            <div class="flex items-start pt-3" v-if="theater_name">
-              <div class="h-12 mr-2 mt-1">
-                <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 410 410'" :iconColor="'#ffea00'" :height="'20'"
-                  :width="'20'">
-                  <TheaterMark />
+  <section>
+    <div id="map">
+      <div id="left" class="shadow-xl sidebar flex-center left collapsed" v-if="this.collapsedMode === false">
+        <div class="rounded-rect">
+          <div class="relative flex min-h-screen bg-black items-center">
+            <div class="w-80 min-w-full left-card max-w-lg mx-auto sm:px-3 lg:px-2 sm:pt-0 mt-5">
+              <!-- <div class="cross-mark absolute top-7 cursor-pointer right-3 text-base font-semibold text-gray-300"
+                @click="toggleSidebar()">
+                <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'" :height="'17'"
+                  :width="'17'">
+                  <CrossMark />
                 </BaseIcon>
+              </div> -->
+              <div class="mt-2 text-3xl font-semibold text-gray-200">
+                映画館MAP
               </div>
-              <div class="text-xl text-white font-bold"> {{ theater_name }}</div>
+              <div class="mt-2 text-lg font-semibold text-gray-400" v-if="!theater_name">
+                お気に入りの映画館を見つけよう。
+              </div>
+              <div class="flex items-start pt-6" v-if="theater_name">
+                <div class="h-12 mr-2 mt-1">
+                  <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 410 410'" :iconColor="'#ffea00'" :height="'20'"
+                    :width="'20'">
+                    <TheaterMark />
+                  </BaseIcon>
+                </div>
+                <div class="text-xl text-white font-bold"> {{ theater_name }}</div>
+              </div>
+              <!-- <button v-if="theater_name" class="back-button mb-5 w-24 min-w-full">
+                <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
+                    :width="'25'">
+                  <UploadMark />
+                </BaseIcon>
+              </button> -->
+              <InfoSection :info="this.info" />
+              <button v-if="theater_name" @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
+                閉じる
+              </button>
+              <button v-else @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
+                映画館を探す
+              </button>
+              <div class="flex items-center justify-center">
+                <div class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300 mb-16"
+                  @click="show('about')">
+                  映画館MAPについて
+                </div>
+              </div>
             </div>
-            <InfoSection :info="this.info" />
-            <button v-if="theater_name" @click="toggleSidebar()" class="back-button mb-10 w-24 min-w-full">
-             戻る
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <v-dialog />
+  </section>
 </template>
 
 <script>
@@ -41,6 +61,8 @@
   import BaseIcon from '../components/BaseIcon.vue';
   import CrossMark from '../components/CrossMark.vue';
   import TheaterMark from '../components/TheaterMark.vue';
+  import UploadMark from '../components/UploadMark.vue';
+  import Header from '../components/Header.vue';
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
@@ -68,7 +90,9 @@
       InfoSection,
       BaseIcon,
       CrossMark,
-      TheaterMark
+      TheaterMark,
+      Header,
+      UploadMark
     },
     mounted() {
       this.createMap()
@@ -124,6 +148,27 @@
       toggleSidebar() {
         this.collapsedMode = !this.collapsedMode
       },
+      show(modalType) {
+
+        function switchText(){
+          switch(modalType){
+            case 'about' : return '国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。';
+            // case 'policy': return ''
+            // case 'rule' : return ''
+          }
+        }
+
+        this.$modal.show('dialog', {
+          title: '映画館MAPとは？',
+          text: switchText(),
+          buttons: [{
+            title: '閉じる',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          }, ]
+        })
+      }
     }
   }
 

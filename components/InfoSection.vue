@@ -5,6 +5,9 @@
         {{ daysToWeekend(index) }}
       </option>
     </select>
+    <div class="font-semibold text-gray-400 mb-5" v-if="info">
+      ※上映予定は、急遽変更になる可能性があります。上映時間直前の最新情報は、公式ホームページをご確認ください。
+    </div>
     <div class="pb-7 sm:pb-9 bg-black sm:rounded-lg" v-for="(movie,index) in info[0]" :key="index">
       <h2 class="text-xl text-white font-semibold">
         {{ movie.title }}
@@ -63,7 +66,6 @@
       getCurrentTime() {}
     }
   }
-
 </script>
 
 <style lang="postcss">
@@ -73,17 +75,13 @@
     padding: 5%;
     overflow: hidden;
   }
-
   li {
     float: left;
   }
-
   .badge {
     @apply bg-indigo-600 rounded-md px-8 py-1 text-lg font-semibold text-white;
-
     &:hover {
       @apply bg-gray-300;
     }
   }
-
 </style>
