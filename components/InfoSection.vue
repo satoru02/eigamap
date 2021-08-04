@@ -61,13 +61,13 @@
         selectedDay: 0,
         currentTime: this.setCurrentTime(),
         today: new Date().toLocaleDateString('ja'),
-        nameOfDays: ['日', '月', '火', '水', '木', '金', '土']
+        nameOfDays: ['日', '月', '火', '水', '木', '金', '土'],
       }
     },
     components: {
       TwitterMark,
       FacebookMark,
-      BaseIcon
+      BaseIcon,
     },
     props: {
       info: {
@@ -119,7 +119,7 @@
         } else {
           return false
         }
-      }
+      },
     }
   }
 

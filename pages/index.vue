@@ -27,6 +27,7 @@
                 </div>
                 <div class="text-xl text-white font-bold"> {{ theater_name }}</div>
               </div>
+              <Loading v-if="loading" />
               <InfoSection :info="this.info" :theaterName="theater_name" />
               <button v-if="theater_name" @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
                 閉じる
@@ -57,6 +58,7 @@
   import CrossMark from '../components/CrossMark.vue';
   import TheaterMark from '../components/TheaterMark.vue';
   import UploadMark from '../components/UploadMark.vue';
+  import Loading from '../components/Loading.vue';
 
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
@@ -78,7 +80,8 @@
         info: '',
         theater_name: '',
         target_day: '',
-        collapsedMode: false
+        collapsedMode: false,
+        loading: false,
       }
     },
     components: {
@@ -88,6 +91,7 @@
       CrossMark,
       TheaterMark,
       UploadMark,
+      Loading
     },
     mounted() {
       this.createMap()
@@ -135,10 +139,16 @@
         })
       },
       async getInfo(theater_name) {
+        this.loadingStart()
+
         await this.$axios.get(
             this.endpoint + `${theater_name}`
-          ).then(res => this.info = res.data.cnm_info)
+          ).then(res => this.fetchSuccessful(res))
           .catch(err => console.log(err))
+      },
+      fetchSuccessful(res){
+        this.loadingFinish()
+        this.info = res.data.cnm_info
       },
       toggleSidebar() {
         this.collapsedMode = !this.collapsedMode
@@ -163,6 +173,12 @@
           }, ]
         })
       },
+      loadingStart() {
+        this.loading = true
+      },
+      loadingFinish() {
+        this.loading = false
+      }
       // socialDialog() {
       //   this.$modal.show(
       //     LinkModal, {

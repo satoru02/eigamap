@@ -28,6 +28,18 @@ export default {
   css: [
   ],
 
+  // loading: {
+  //   name: 'circle',
+  //   color: 'blue',
+  //   height: '2px'
+  // },
+
+  // loadingIndicator: {
+  //   name: 'circle',
+  //   color: '#3B8070',
+  //   background: 'white'
+  // },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~plugins/vue-js-modal.js'
