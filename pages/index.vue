@@ -28,10 +28,17 @@
               <button v-else @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
                 映画館を探す
               </button>
-              <div class="flex items-center justify-center">
-                <div class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300 mb-16"
-                  @click="openDialog('about')">
+              <div class="flex flex-wrap mb-16">
+                <div class="font-medium cursor-pointer hover:text-indigo-600 text-xs px-5 mb-3 text-gray-400"
+                  @click="aboutDialog()">
                   映画館MAPについて
+                </div>
+                <div class="font-medium cursor-pointer hover:text-indigo-600 text-xs px-5 mb-3 text-gray-400"
+                  @click="contactDialog()">
+                  お問い合わせ
+                </div>
+                <div class="font-medium text-xs px-5 mb-3 text-gray-400">
+                  © 2021 映画館MAP
                 </div>
               </div>
             </div>
@@ -52,7 +59,7 @@
   import TheaterMark from '../components/TheaterMark.vue';
   import UploadMark from '../components/UploadMark.vue';
   import Loading from '../components/Loading.vue';
-
+  import ContactModal from '../components/ContactModal.vue';
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
@@ -84,7 +91,8 @@
       CrossMark,
       TheaterMark,
       UploadMark,
-      Loading
+      Loading,
+      ContactModal
     },
     mounted() {
       this.createMap()
@@ -112,7 +120,6 @@
         this.geojson.features.forEach((marker) => {
           var el = document.createElement('div');
           el.className = 'marker';
-
           var popup = new mapboxgl.Popup({
             offset: 25
           }).setText(
@@ -134,29 +141,30 @@
       },
       async getInfo(theater_name) {
         this.loadingStart()
-
         await this.$axios.get(
             this.endpoint + `${theater_name}`
           ).then(res => this.fetchSuccessful(res))
           .catch(err => console.log(err))
       },
-      fetchSuccessful(res){
+      fetchSuccessful(res) {
         this.loadingFinish()
         this.info = res.data.cnm_info
       },
       toggleSidebar() {
         this.collapsedMode = !this.collapsedMode
       },
-      openDialog(modalType) {
-        function switchText() {
-          switch (modalType) {
-            case 'about':
-              return '国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。';
-          }
-        }
+      loadingStart() {
+        this.loading = true
+      },
+      loadingFinish() {
+        this.loading = false
+      },
+      aboutDialog() {
+        let text =
+          "国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。"
         this.$modal.show('dialog', {
           title: '映画館MAPとは？',
-          text: switchText(),
+          text: text,
           buttons: [{
             title: '閉じる',
             handler: () => {
@@ -165,11 +173,16 @@
           }, ]
         })
       },
-      loadingStart() {
-        this.loading = true
-      },
-      loadingFinish() {
-        this.loading = false
+      contactDialog() {
+        this.$modal.show(
+          ContactModal, {
+            text: ''
+          }, {
+            height: 'auto'
+          }, {
+            'before-close': event => {}
+          }
+        )
       }
     }
   }
