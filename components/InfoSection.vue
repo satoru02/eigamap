@@ -60,7 +60,8 @@
         daysOfWeek: [],
         selectedDay: 0,
         currentTime: this.setCurrentTime(),
-        today: new Date().toLocaleDateString('ja')
+        today: new Date().toLocaleDateString('ja'),
+        nameOfDays: ['日', '月', '火', '水', '木', '金', '土']
       }
     },
     components: {
@@ -107,8 +108,9 @@
           month: 'long',
           day: 'numeric'
         }
-        let day = this.setTargetDay(daysIndex)
-        return new Date(day).toLocaleDateString('ja', options)
+        let day = new Date(this.setTargetDay(daysIndex)).toLocaleDateString('ja', options)
+        let nameOfday = this.nameOfDays[new Date(this.setTargetDay(daysIndex)).getDay()]
+        return day + "(" + nameOfday + ")"
       },
       checkTime(time) {
         let playingTime = this.today + " " + `${time}`
