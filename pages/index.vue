@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <v-dialog />
+    <!-- <v-dialog /> -->
   </section>
 </template>
 
@@ -163,17 +163,17 @@
           }, ]
         })
       },
-      socialDialog() {
-        this.$modal.show(
-          LinkModal, {
-            text: 'This text is passed as a property'
-          }, {
-            height: 'auto'
-          }, {
-            'before-close': event => {}
-          }
-        )
-      }
+      // socialDialog() {
+      //   this.$modal.show(
+      //     LinkModal, {
+      //       text: 'This text is passed as a property'
+      //     }, {
+      //       height: 'auto'
+      //     }, {
+      //       'before-close': event => {}
+      //     }
+      //   )
+      // }
     }
   }
 
