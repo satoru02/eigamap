@@ -5,13 +5,6 @@
         <div class="rounded-rect">
           <div class="relative flex min-h-screen bg-black items-center">
             <div class="w-80 min-w-full left-card max-w-lg mx-auto sm:px-3 lg:px-2 sm:pt-0 mt-5">
-              <!-- <div class="cross-mark absolute top-7 cursor-pointer right-3 text-base font-semibold text-gray-300"
-                @click="toggleSidebar()">
-                <BaseIcon icon-name="icon-crossMark" :viewBox="'0 0 22.88 22.88'" :iconColor="'#ffffff'" :height="'17'"
-                  :width="'17'">
-                  <CrossMark />
-                </BaseIcon>
-              </div> -->
               <div class="mt-2 text-3xl font-semibold text-gray-200">
                 映画館MAP
               </div>
@@ -95,6 +88,7 @@
     },
     mounted() {
       this.createMap()
+      this.$ga.page('/')
     },
     methods: {
       createMap() {
@@ -158,8 +152,6 @@
           switch (modalType) {
             case 'about':
               return '国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。';
-              // case 'policy': return ''
-              // case 'rule' : return ''
           }
         }
         this.$modal.show('dialog', {
@@ -179,17 +171,6 @@
       loadingFinish() {
         this.loading = false
       }
-      // socialDialog() {
-      //   this.$modal.show(
-      //     LinkModal, {
-      //       text: 'This text is passed as a property'
-      //     }, {
-      //       height: 'auto'
-      //     }, {
-      //       'before-close': event => {}
-      //     }
-      //   )
-      // }
     }
   }
 
