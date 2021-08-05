@@ -1,12 +1,15 @@
 <template>
   <section>
+    <client-only>
+      <v-dialog />
+    </client-only>
     <div id="map">
       <div id="left" class="shadow-xl sidebar flex-center left collapsed" v-if="this.collapsedMode === false">
         <div class="rounded-rect">
           <div class="relative flex min-h-screen bg-black items-center">
             <div class="w-80 min-w-full left-card max-w-lg mx-auto sm:px-3 lg:px-2 sm:pt-0 mt-5">
               <div class="mt-2 text-3xl font-semibold text-gray-200">
-                映画館MAP
+                映画MAP
               </div>
               <div class="mt-2 text-lg font-semibold text-gray-400" v-if="!theater_name">
                 お気に入りの映画館を見つけよう。
@@ -31,14 +34,14 @@
               <div class="flex flex-wrap mb-16">
                 <div class="font-medium cursor-pointer hover:text-indigo-600 text-xs px-5 mb-3 text-gray-400"
                   @click="aboutDialog()">
-                  映画館MAPについて
+                  映画MAPについて
                 </div>
                 <div class="font-medium cursor-pointer hover:text-indigo-600 text-xs px-5 mb-3 text-gray-400"
                   @click="contactDialog()">
                   お問い合わせ
                 </div>
                 <div class="font-medium text-xs px-5 mb-3 text-gray-400">
-                  © 2021 映画館MAP
+                  © 2021 映画MAP
                 </div>
               </div>
             </div>
@@ -46,24 +49,23 @@
         </div>
       </div>
     </div>
-    <!-- <v-dialog /> -->
   </section>
 </template>
 
 <script>
   import mapboxgl from 'mapbox-gl';
-  import Header from '../components/Header.vue';
-  import InfoSection from '../components/InfoSection.vue';
-  import BaseIcon from '../components/BaseIcon.vue';
-  import CrossMark from '../components/CrossMark.vue';
-  import TheaterMark from '../components/TheaterMark.vue';
-  import UploadMark from '../components/UploadMark.vue';
-  import Loading from '../components/Loading.vue';
-  import ContactModal from '../components/ContactModal.vue';
+  import ContactModal from '@/components/ContactModal.vue';
   const getCinemas = () => import('../static/geodata.json').then(j => j.default || j);
 
   export default {
     name: "index",
+    components: {
+      'InfoSection': () => import('@/components/InfoSection.vue'),
+      'BaseIcon': () => import('@/components/BaseIcon.vue'),
+      'CrossMark': () => import('@/components/CrossMark.vue'),
+      'TheaterMark': () => import('@/components/TheaterMark.vue'),
+      'Loading': () => import('@/components/Loading.vue'),
+    },
     async asyncData({
       req
     }) {
@@ -76,23 +78,13 @@
       return {
         access_token: process.env.ACCESS_TOKEN,
         endpoint: process.env.API_GATEWAY,
+        collapsedMode: false,
+        loading: false,
         map: {},
         info: '',
         theater_name: '',
         target_day: '',
-        collapsedMode: false,
-        loading: false,
       }
-    },
-    components: {
-      Header,
-      InfoSection,
-      BaseIcon,
-      CrossMark,
-      TheaterMark,
-      UploadMark,
-      Loading,
-      ContactModal
     },
     mounted() {
       this.createMap()
@@ -125,7 +117,6 @@
           }).setText(
             marker.properties.title
           );
-
           new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
             .setPopup(popup)
@@ -160,11 +151,9 @@
         this.loading = false
       },
       aboutDialog() {
-        let text =
-          "国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。"
         this.$modal.show('dialog', {
           title: '映画館MAPとは？',
-          text: text,
+          text: "国内映画館の最新の上映情報をMAPで確認出来るサービスです。今いる場所から一番近い映画館を探したい、旅先で映画館に行きたい、暇な時間にふらっといける映画館をチェックしたい。そんな時に簡単に映画館を見つける事が出来ます。",
           buttons: [{
             title: '閉じる',
             handler: () => {
@@ -186,7 +175,6 @@
       }
     }
   }
-
 </script>
 
 <style lang="postcss">
@@ -248,7 +236,6 @@
 
   .new_badge {
     @apply border border-gray-300 rounded-lg px-3 py-1 text-base font-semibold text-white;
-
     &:hover {
       @apply bg-gray-300;
     }
@@ -256,7 +243,6 @@
 
   .back-button {
     @apply bg-green-400 rounded-md px-8 py-1 text-lg font-semibold text-white;
-
     &:hover {
       @apply bg-green-600;
     }

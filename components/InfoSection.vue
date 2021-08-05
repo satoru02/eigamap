@@ -9,7 +9,7 @@
       <div class="font-semibold text-gray-100 text-sm mr-4">
         この映画館をシェア
       </div>
-      <a :href="`https://twitter.com/intent/tweet?&text=${theaterName}&hashtags=映画館MAP&url=https://domain&screen_name=映画館MAP`"
+      <a :href="`https://twitter.com/intent/tweet?&text=${theaterName}&hashtags=映画MAP&url=https://domain&screen_name=映画MAP`"
         class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300">
         <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
           :width="'25'">
@@ -49,10 +49,6 @@
 </template>
 
 <script>
-  import TwitterMark from '../components/TwitterMark.vue';
-  import FacebookMark from '../components/FacebookMark.vue';
-  import BaseIcon from '../components/BaseIcon.vue';
-
   export default {
     name: 'InfoSection',
     data() {
@@ -65,9 +61,9 @@
       }
     },
     components: {
-      TwitterMark,
-      FacebookMark,
-      BaseIcon,
+      'TwitterMark': () => import('@/components/TwitterMark.vue'),
+      'FacebookMark': () => import('@/components/FacebookMark.vue'),
+      'BaseIcon': () => import('@/components/BaseIcon.vue'),
     },
     props: {
       info: {

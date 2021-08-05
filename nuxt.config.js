@@ -2,7 +2,7 @@ export default {
   target: 'static',
   ssr: 'false',
   head: {
-    title: '映画館MAP | お気に入りの映画館を見つけよう。',
+    title: '映画MAP | お気に入りの映画館を見つけよう。',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
