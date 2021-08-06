@@ -82,7 +82,6 @@
         map: {},
         info: '',
         theater_name: '',
-        target_day: '',
       }
     },
     mounted() {

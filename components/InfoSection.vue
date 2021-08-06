@@ -34,13 +34,13 @@
       <div class="flex flex-wrap" v-if="selectedDay === 0">
         <div
           :class="checkTime(date.time) ? 'time-button mr-4 mt-4 cursor-pointer hover:text-blue-600' : 'finish-time-button mr-4 mt-4 cursor-pointer'"
-          v-for="(date, index) in movie.props[0][selectedDay]" :key="index">
+          v-for="(date, index) in movie.props[0][daysOfWeek[selectedDay]]" :key="index">
           {{ date.time }}
         </div>
       </div>
       <div class="flex flex-wrap" v-else>
         <div class="time-button mr-4 mt-4 cursor-pointer hover:text-blue-600"
-          v-for="(date, index) in movie.props[0][selectedDay]" :key="index">
+          v-for="(date, index) in movie.props[0][daysOfWeek[selectedDay]]" :key="index">
           {{ date.time }}
         </div>
       </div>
