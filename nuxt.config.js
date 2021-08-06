@@ -22,7 +22,8 @@ export default {
   },
 
   plugins: [
-    '~plugins/vue-js-modal.js'
+    '~plugins/vue-js-modal.js',
+    '~/plugins/axios'
   ],
   components: true,
   buildModules: [
@@ -37,8 +38,13 @@ export default {
   ],
 
   axios: {
-    proxyHeaders: false,
-    credentials: false
+    baseURL: 'http://localhost:3000',
+    credentials: false,
+  },
+
+  proxy: {
+    '/api/': 'http://api.example.com',
+    '/api2/': 'http://api.another-website.com'
   },
 
   pwa: {

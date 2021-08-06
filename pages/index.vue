@@ -62,7 +62,6 @@
     components: {
       'InfoSection': () => import('@/components/InfoSection.vue'),
       'BaseIcon': () => import('@/components/BaseIcon.vue'),
-      'CrossMark': () => import('@/components/CrossMark.vue'),
       'TheaterMark': () => import('@/components/TheaterMark.vue'),
       'Loading': () => import('@/components/Loading.vue'),
     },
@@ -175,6 +174,7 @@
       }
     }
   }
+
 </script>
 
 <style lang="postcss">
@@ -236,6 +236,7 @@
 
   .new_badge {
     @apply border border-gray-300 rounded-lg px-3 py-1 text-base font-semibold text-white;
+
     &:hover {
       @apply bg-gray-300;
     }
@@ -243,6 +244,7 @@
 
   .back-button {
     @apply bg-green-400 rounded-md px-8 py-1 text-lg font-semibold text-white;
+
     &:hover {
       @apply bg-green-600;
     }
