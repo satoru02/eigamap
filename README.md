@@ -1,8 +1,32 @@
-# cnm
+#
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/40885517/131468422-fe253152-b3e5-4db5-b8d9-78777c42f6e9.png" alt="eigamap" title="eigamap">
+</div>
 
-## Build Setup
+# Eigamap
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/satoru02/eigamap)
+![GitHub top language](https://img.shields.io/github/languages/top/satoru02/eigamap)
+![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Feigamap)
 
-```bash
+This is a service that allows you to check the latest screening information of japanese(*) movie theaters with a MAP. If you want to find the nearest movie theater from where you are, or if you need to go to a movie in your travels, or if you want to check out a movie theater that you can go to in your spare time, you can easily find it. In such cases, you can easily find a movie theater.
+
+*International movie theaters will be supported in the future.
+
+
+## Screenshot
+![eigamap](https://user-images.githubusercontent.com/40885517/131469569-a19801de-8111-4db9-ad62-73005f3a0f3e.jpg)
+
+## Architecture
+![eigamap](https://user-images.githubusercontent.com/40885517/131474742-13a9c329-d60a-4e9f-a1c7-43e04acf7ad7.jpg)
+
+## Build
+```
+clone the repo.
+$ git clone https://github.com/satoru02/eigamap.git
+
+# Change to the directory.
+$ cd eigamap
+
 # install dependencies
 $ npm install
 
@@ -17,54 +41,5 @@ $ npm run start
 $ npm run generate
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
-
-## Special Directories
-
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
-
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
-
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
-# cnm
+## License
+MIT
