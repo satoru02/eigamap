@@ -1,8 +1,8 @@
 <template>
   <section>
-    <select v-if="this.info" v-model="selectedDay" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
-      <option v-for="(day, index) in daysOfWeek" :key="index" :value="index">
-        {{ daysToWeekend(index) }}
+    <select v-if="this.info" v-model="selectedDate" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
+      <option v-for="(day, index) in daysOfWeek" :key="index" :value="day">
+        {{ screeningDate(index) }}
       </option>
     </select>
     <div class="flex items-center mb-6" v-if="this.info">
@@ -31,16 +31,16 @@
       <h2 class="text-xl text-white font-semibold">
         {{ movie.title }}
       </h2>
-      <div class="flex flex-wrap" v-if="selectedDay === 0">
+      <div class="flex flex-wrap" v-if="selectedDate === 0">
         <div
           :class="checkTime(date.time) ? 'time-button mr-4 mt-4 cursor-pointer hover:text-blue-600' : 'finish-time-button mr-4 mt-4 cursor-pointer'"
-          v-for="(date, index) in movie.props[0][daysOfWeek[selectedDay]]" :key="index">
+          v-for="(date, index) in movie.props[0][selectedDate]" :key="index">
           {{ date.time }}
         </div>
       </div>
       <div class="flex flex-wrap" v-else>
         <div class="time-button mr-4 mt-4 cursor-pointer hover:text-blue-600"
-          v-for="(date, index) in movie.props[0][daysOfWeek[selectedDay]]" :key="index">
+          v-for="(date, index) in movie.props[0][selectedDate]" :key="index">
           {{ date.time }}
         </div>
       </div>
@@ -51,15 +51,6 @@
 <script>
   export default {
     name: 'InfoSection',
-    data() {
-      return {
-        daysOfWeek: [],
-        selectedDay: 0,
-        currentTime: this.setCurrentTime(),
-        today: new Date().toLocaleDateString('ja'),
-        nameOfDays: ['日', '月', '火', '水', '木', '金', '土'],
-      }
-    },
     components: {
       'TwitterMark': () => import('@/components/TwitterMark.vue'),
       'FacebookMark': () => import('@/components/FacebookMark.vue'),
@@ -67,55 +58,72 @@
     },
     props: {
       info: {
-        type: "",
-        default: ""
+        type: '',
+        default: ''
       },
       theaterName: {
         type: String,
         default: ''
       }
     },
-    created() {
-      this.daysOfWeek = this.setDaysToWeekend()
+    data() {
+      return {
+        localizedToday: new Date().toLocaleDateString('ja'),
+        hours: '',
+        minutes: '',
+        todayNumber: '',
+        selectedDate: '',
+        nameOfDays: ['日', '月', '火', '水', '木', '金', '土'],
+        daysOfWeek: [],
+      }
+    },
+    mounted() {
+      const today = new Date()
+      this.hours = today.getHours()
+      this.minutes = today.getMinutes()
+      this.todayNumber = today.getDay()
+      this.daysOfWeek = this.setDaysOfWeek()
+      this.selectedDate = this.daysOfWeek[0]
     },
     methods: {
-      setCurrentTime() {
-        let now = new Date()
-        let currentDay = now.toLocaleDateString('ja')
-        let currentTime = currentDay + " " + now.getHours() + ":" + now.getMinutes()
-        return currentTime
-      },
-      setDaysToWeekend() {
-        let today = new Date(Date.now())
-        let todayNumber = today.getDay()
-        let ary = []
-        for (let i = todayNumber; i < 7; i++) {
-          ary.push(i)
+      setDaysOfWeek() {
+        let remainingDays;
+        let days = []
+
+        if((this.todayNumber === 5) || (this.todayNumber === 6)){
+          remainingDays = this.todayNumber + 7
+        } else {
+          remainingDays = 8 - this.todayNumber
         }
-        return ary
-      },
-      setTargetDay(targetDay) {
-        let day = new Date()
-        day.setDate(day.getDate() + targetDay)
-        return day
-      },
-      daysToWeekend(daysIndex) {
-        let options = {
-          month: 'long',
-          day: 'numeric'
+
+        for (let i = this.todayNumber; i < remainingDays; i++) {
+          if ((this.todayNumber === 5) || (this.todayNumber === 6)) {
+            days.push(i - 5)
+          } else {
+            days.push(i + 2)
+          }
         }
-        let day = new Date(this.setTargetDay(daysIndex)).toLocaleDateString('ja', options)
-        let nameOfday = this.nameOfDays[new Date(this.setTargetDay(daysIndex)).getDay()]
-        return day + "(" + nameOfday + ")"
+        return days
+      },
+      selectDate(date) {
+        let today = new Date()
+        return today.setDate(today.getDate() + date)
+      },
+      screeningDate(date) {
+        let options = { month: 'long', day: 'numeric' }
+        let day = new Date(this.selectDate(date)).toLocaleDateString('ja', options)
+        let nameOfday = this.nameOfDays[new Date(this.selectDate(date)).getDay()]
+        return day + "（" + nameOfday + "）"
       },
       checkTime(time) {
-        let playingTime = this.today + " " + `${time}`
-        if (Date.parse(this.currentTime) < Date.parse(playingTime)) {
+        let screenTime = this.localizedToday + " " + `${time}`
+        let currentTime = this.localizedToday + " " + this.hours + ":" + this.minutes
+        if (Date.parse(currentTime) < Date.parse(screenTime)) {
           return true
         } else {
           return false
         }
-      },
+      }
     }
   }
 
@@ -148,5 +156,4 @@
       @apply bg-gray-300;
     }
   }
-
 </style>
