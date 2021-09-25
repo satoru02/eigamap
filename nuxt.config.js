@@ -19,6 +19,7 @@ export default {
   env: {
     ACCESS_TOKEN: process.env.ACCESS_TOKEN,
     API_GATEWAY: process.env.API_GATEWAY,
+    MAPBOX_STYLE_PATH: process.env.MAPBOX_STYLE_PATH
   },
 
   plugins: [
