@@ -1,11 +1,11 @@
 <template>
   <section>
-    <select v-if="this.info" v-model="selectedDate" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
+    <select v-if="this.movieScreenInfo" v-model="selectedDate" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
       <option v-for="(day, index) in daysOfWeek" :key="index" :value="day">
         {{ screeningDate(index) }}
       </option>
     </select>
-    <div class="flex items-center mb-6" v-if="this.info">
+    <div v-if="this.movieScreenInfo" class="flex items-center mb-6">
       <div class="font-semibold text-gray-100 text-sm mr-4">
         この映画館をシェア
       </div>
@@ -13,34 +13,32 @@
         class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300">
         <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
           :width="'25'">
-          <TwitterMark />
+          <TwitterIcon />
         </BaseIcon>
       </a>
       <a :href="`https://www.facebook.com/sharer.php?u=https://domain&t=${theaterName}`"
         class="font-semibold cursor-pointer hover:text-indigo-600 text-xs mr-3 text-gray-300">
         <BaseIcon icon-name="icon-theater-mark" :viewBox="'0 0 512 512'" :iconColor="'#ffffff'" :height="'25'"
           :width="'25'">
-          <FacebookMark />
+          <FacebookIcon />
         </BaseIcon>
       </a>
     </div>
-    <div class="font-semibold text-gray-400 mb-5" v-if="info">
+    <div v-if="movieScreenInfo" class="font-semibold text-gray-400 mb-5">
       ※上映予定は、急遽変更になる可能性があります。上映時間直前の最新情報は、公式ホームページをご確認ください。
     </div>
-    <div class="pb-7 sm:pb-9 bg-black sm:rounded-lg" v-for="(movie,index) in info[0]" :key="index">
+    <div v-for="(movie,index) in movieScreenInfo[0]" :key="index" class="pb-7 sm:pb-9 bg-black sm:rounded-lg">
       <h2 class="text-xl text-white font-semibold">
         {{ movie.title }}
       </h2>
-      <div class="flex flex-wrap" v-if="selectedDate === 0">
-        <div
-          :class="checkTime(date.time) ? 'time-button mr-4 mt-4 cursor-pointer hover:text-blue-600' : 'finish-time-button mr-4 mt-4 cursor-pointer'"
-          v-for="(date, index) in movie.props[0][selectedDate]" :key="index">
+      <div v-if="selectedDate === 0" class="flex flex-wrap">
+        <div v-for="(date, index) in movie.props[0][selectedDate]" :key="index"
+          :class="checkTime(date.time) ? 'time-button mr-4 mt-4 cursor-pointer hover:text-blue-600' : 'finish-time-button mr-4 mt-4 cursor-pointer'">
           {{ date.time }}
         </div>
       </div>
-      <div class="flex flex-wrap" v-else>
-        <div class="time-button mr-4 mt-4 cursor-pointer hover:text-blue-600"
-          v-for="(date, index) in movie.props[0][selectedDate]" :key="index">
+      <div v-else class="flex flex-wrap">
+        <div v-for="(date, index) in movie.props[0][selectedDate]" :key="index" class="time-button mr-4 mt-4 cursor-pointer hover:text-blue-600">
           {{ date.time }}
         </div>
       </div>
@@ -52,14 +50,14 @@
   export default {
     name: 'InfoSection',
     components: {
-      'TwitterMark': () => import('@/components/TwitterMark.vue'),
-      'FacebookMark': () => import('@/components/FacebookMark.vue'),
-      'BaseIcon': () => import('@/components/BaseIcon.vue'),
+      'BaseIcon': () => import('~/components/icon/BaseIcon.vue'),
+      'TwitterIcon': () => import('@/components/icon/TwitterIcon.vue'),
+      'FacebookIcon': () => import('@/components/icon/FacebookIcon.vue'),
     },
     props: {
-      info: {
+      movieScreenInfo: {
         type: '',
-        default: ''
+        default: []
       },
       theaterName: {
         type: String,
@@ -126,7 +124,6 @@
       }
     }
   }
-
 </script>
 
 <style lang="postcss">
