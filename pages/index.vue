@@ -24,7 +24,7 @@
                 <div class="text-xl text-white font-bold">{{ theaterName }}</div>
               </div>
               <Loading v-if="isLoading" />
-              <InfoSection :movieScreenInfo="this.movieScreenInfo" :theaterName="theaterName" />
+              <InfoSection v-if="this.movieScreenInfo" :movieScreenInfo="this.movieScreenInfo" :theaterName="theaterName" />
               <button v-if="theaterName" @click="toggleSidebar()" class="mt-5 back-button mb-10 w-24 min-w-full">
                 閉じる
               </button>
@@ -137,6 +137,7 @@
       },
       fetchSuccessful(res) {
         this.isLoading = false
+        // TODO: fix database colums naming. [cnm_info] means movie screening information.
         this.movieScreenInfo = res.data.cnm_info
       },
       toggleSidebar() {

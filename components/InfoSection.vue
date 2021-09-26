@@ -1,11 +1,11 @@
 <template>
   <section>
-    <select v-if="this.movieScreenInfo" v-model="selectedDate" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
+    <select v-model="selectedDate" class="rounded-sm text-xl font-semibold bg-black mb-6 text-white">
       <option v-for="(day, index) in daysOfWeek" :key="index" :value="day">
         {{ screeningDate(index) }}
       </option>
     </select>
-    <div v-if="this.movieScreenInfo" class="flex items-center mb-6">
+    <div class="flex items-center mb-6">
       <div class="font-semibold text-gray-100 text-sm mr-4">
         この映画館をシェア
       </div>
@@ -56,12 +56,14 @@
     },
     props: {
       movieScreenInfo: {
-        type: '',
-        default: []
+        type: Array,
+        required: true,
+        default: [],
       },
       theaterName: {
         type: String,
-        default: ''
+        required: true,
+        default: '',
       }
     },
     data() {
@@ -70,9 +72,9 @@
         hours: '',
         minutes: '',
         todayNumber: '',
+        daysOfWeek: [],
         selectedDate: '',
         nameOfDays: ['日', '月', '火', '水', '木', '金', '土'],
-        daysOfWeek: [],
       }
     },
     mounted() {
