@@ -21,7 +21,7 @@
     "micromodal": "^0.4.6",
     "nuxt": "^2.15.7",
     "vue-js-modal": "^2.0.0-rc.6",
-    "vue-select": "^3.12.2"
+    "vue-select": "^3.16.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.0",
